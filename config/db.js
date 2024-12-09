@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const Page = require('../models/pageModel');
+
+
 const ConnectDataBase = function () {
   try {
     mongoose.connect(process.env.DB_URI);
@@ -6,6 +9,7 @@ const ConnectDataBase = function () {
   } catch (error) {
     console.log(error);
   }
+
 };
 
 module.exports = ConnectDataBase;

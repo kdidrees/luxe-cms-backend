@@ -8,6 +8,11 @@ const createPage = async (pageName, components) => {
     throw new Error("No components provided");
   }
 
+  const existingPage = await Page.findOne({ pageName });
+  if (existingPage) {
+    throw new Error("Page with this name already exists");
+  }
+
   try {
     const componentPromises = components.map(async (component) => {
       const newComponent = new Component({
@@ -21,7 +26,7 @@ const createPage = async (pageName, components) => {
     const savedComponents = await Promise.all(componentPromises);
 
     const newPage = new Page({
-      pageName: pageName,
+      pageName,
       components: savedComponents.map((comp) => comp._id),
     });
 
@@ -29,9 +34,7 @@ const createPage = async (pageName, components) => {
 
     return savedPage;
   } catch (error) {
-    throw new Error(
-      "Error while creating the page or components: " + error.message
-    );
+    throw new Error("Error while creating the page  " + error.message);
   }
 };
 

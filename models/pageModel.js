@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const pageSchema = new mongoose.Schema(
   {
-    pageName: { type: String, required: true },
+    pageName: { type: String, required: true , unique:true},
     components: [{ type: mongoose.Schema.Types.ObjectId, ref: "Components" }],
   },
   {
