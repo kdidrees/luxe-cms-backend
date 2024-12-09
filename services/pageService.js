@@ -1,30 +1,40 @@
 const Page = require("../models/pageModel");
+const Component = require("../models/componentModel");
 const CustomError = require("../utils/customError");
 
-const createPage = async (pageData) => {
-  try {
-    const page = new Page(pageData);
-    await page.save();
-    return page;
-  } catch (error) {
-    throw new CustomError(500, "error while creating the page");
+// Create a new page with associated components
+const createPage = async (pageName, components) => {
+  if (!components || components.length === 0) {
+    throw new Error("No components provided");
   }
-};
 
-const getPageByName = async (pageName) => {
   try {
-    const page = Page.findOne({ pageName });
+    const componentPromises = components.map(async (component) => {
+      const newComponent = new Component({
+        type: component.type,
+        data: component.data,
+      });
 
-    if (!page) {
-      throw new CustomError(404, "Page not found");
-    }
-    return page;
+      return await newComponent.save();
+    });
+
+    const savedComponents = await Promise.all(componentPromises);
+
+    const newPage = new Page({
+      pageName: pageName,
+      components: savedComponents.map((comp) => comp._id),
+    });
+
+    const savedPage = await newPage.save();
+
+    return savedPage;
   } catch (error) {
-    throw new CustomError(error);
+    throw new Error(
+      "Error while creating the page or components: " + error.message
+    );
   }
 };
 
 module.exports = {
   createPage,
-  getPageByName,
 };

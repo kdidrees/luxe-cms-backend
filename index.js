@@ -20,7 +20,6 @@ ConnectDataBase();
 
 // use routes
 app.use("/api/pages", pageRoutes);
-app.use("/api", uploadRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`the server is running at port ${process.env.PORT}`);
