@@ -1,8 +1,10 @@
 class CustomError extends Error {
-  constructor(statusCode, message) {
+  constructor(statusCode, message, isOperational = true) {
     super(message);
-    (this.statusCode = statusCode), (this.message = message);
+    this.statusCode = statusCode;
+    this.message = message;
     this.isOperational = true;
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
