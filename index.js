@@ -6,7 +6,7 @@ const ConnectDataBase = require("./config/db");
 
 // Routes
 const pageRoutes = require("./routes/pageRoutes");
-const uploadRoutes = require("./routes/uploadRoutes");
+const componentRoutes = require("./routes/componentRoutes");
 
 dotenv.config();
 
@@ -20,6 +20,7 @@ ConnectDataBase();
 
 // use routes
 app.use("/api/pages", pageRoutes);
+app.use("/api/components", componentRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`the server is running at port ${process.env.PORT}`);
