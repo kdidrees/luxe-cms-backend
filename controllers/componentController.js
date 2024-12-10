@@ -1,6 +1,28 @@
 const componentService = require("../services/componentService");
 const CustomError = require("../utils/customError");
 
+const getComponentById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const Component = await componentService.getComponentById(id);
+
+    if (!Component) {
+      return res.status(404).json({
+        status: "failed",
+        message: "component not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "component fetched successfully",
+      data: Component,
+    });
+  } catch (error) {
+    throw new CustomError(500, error.message);
+  }
+};
 const updateComponent = async (req, res) => {
   const { id } = req.params;
   const updateData = req.body;
@@ -28,4 +50,4 @@ const updateComponent = async (req, res) => {
   }
 };
 
-module.exports = { updateComponent };
+module.exports = { updateComponent, getComponentById };

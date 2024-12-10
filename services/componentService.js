@@ -1,6 +1,14 @@
 const Component = require("../models/componentModel");
 const CustomError = require("../utils/customError");
 
+const getComponentById = async (id) => {
+  try {
+    const component = await Component.findById(id);
+    return component;
+  } catch (error) {
+    throw new CustomError(error.message);
+  }
+};
 const updateComponentById = async (id, updateData) => {
   try {
     const updatedComponent = await Component.findByIdAndUpdate(id, updateData, {
@@ -14,4 +22,4 @@ const updateComponentById = async (id, updateData) => {
   }
 };
 
-module.exports = { updateComponentById };
+module.exports = { updateComponentById, getComponentById };
