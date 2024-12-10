@@ -1,27 +1,26 @@
 const pageService = require("../services/pageService");
 const CustomError = require("../utils/customError");
 
+const createPage = async (req, res, next) => {
+  const { pageName, components } = req.body;
 
-const createPage = async(req,res,next)=>{
-  const {pageName,components} = req.body;
+  console.log("Page Data:", { pageName, components });
 
   try {
-    if(!pageName || !components){
-        throw new CustomError(400,'page name and components are required');
-    }
+    const page = await pageService.createPage(pageName, components);
 
-    const pageData = {pageName,components}
-    const createdPage = await pageService.createPage(pageData);
-    return res.status(201).json({
-        status:'success',
-        message:"page created successfully",
-        data:createdPage
-    })
-
+    res.status(201).json({
+      status: "success",
+      message: "Page created successfully",
+      data: page,
+    });
   } catch (error) {
-    next(error)
+    res.status(500).json({
+      status: "fail",
+      message: "Error while creating the page ",
+      error: error.message,
+    });
   }
-}
+};
 
-
-module.exports = {createPage}
+module.exports = { createPage };
