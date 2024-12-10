@@ -1,5 +1,8 @@
 const uploadImageToCloudinary = require('../utils/cloudinary');
 const uploadImage = async (req, res) => {
+
+  console.log('file kd', req.file)
+  
   if (!req.file) {
     return res.status(400).json({
       message: 'No file uploaded',

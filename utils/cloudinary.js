@@ -10,14 +10,26 @@ cloudinary.config({
 
 const uploadImageToCloudinary = async (fileBuffer) => {
   try {
-    const result = await cloudinary.uploader.upload(fileBuffer, {
-      resource_type: "auto",
-    });
+    // Cloudinary expects a stream for buffer upload
+    return new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { resource_type: "auto" },
+        (error, result) => {
+          if (error) {
+            console.error('Cloudinary upload failed:', error);
+            return reject(error);
+          }
+          console.log('Cloudinary upload result:', result);
+          resolve(result.secure_url);  // Return the secure URL from Cloudinary
+        }
+      );
 
-    return result.secure_url;
+      // Pass the file buffer to Cloudinary's stream upload
+      stream.end(fileBuffer);
+    });
   } catch (error) {
-    console.error("Cloudinary Upload Error:", error);
-    throw new CustomError(500, "Failed to upload image to Cloudinary");
+    console.error('Cloudinary upload failed:', error);
+    throw new CustomError(500, `Failed to upload image to Cloudinary: ${error.message}`);
   }
 };
 
