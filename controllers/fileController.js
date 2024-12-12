@@ -1,7 +1,7 @@
-const uploadImageToCloudinary = require('../utils/cloudinary');
-const uploadImage = async (req, res) => {
+const {uploadImageToCloudinary} = require('../utils/cloudinary');
 
-  console.log('file kd', req.file)
+// console.log("__dirname in fileController:", __dirname);
+const uploadImage = async (req, res) => {
   
   if (!req.file) {
     return res.status(400).json({
@@ -10,7 +10,7 @@ const uploadImage = async (req, res) => {
   }
 
   try {
-    const imageUrl = await uploadImageToCloudinary(req.file.buffer);
+    const imageUrl = await uploadImageToCloudinary(req.file.path);
 
     // Send the Cloudinary URL in the response
     return res.status(200).json({
