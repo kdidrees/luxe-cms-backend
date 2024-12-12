@@ -26,3 +26,16 @@ exports.createServiceList = async (req, res) => {
     throw new CustomError(500, "server error while crewating list");
   }
 };
+
+exports.getServiceList = async (req, res) => {
+  try {
+    const result = await serviceListService.getServiceList();
+    return res.status(200).json({
+      status: "success",
+      message: "services fetched successfully",
+      data: result,
+    });
+  } catch (error) {
+    throw new CustomError(500, error.message);
+  }
+};

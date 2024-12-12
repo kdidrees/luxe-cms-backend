@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const dotenv = require("dotenv");
 const ConnectDataBase = require("./config/db");
+const cors = require("cors");
 
 // Routes
 const pageRoutes = require("./routes/pageRoutes");
@@ -15,6 +16,7 @@ const app = express();
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // connect database here
 ConnectDataBase();

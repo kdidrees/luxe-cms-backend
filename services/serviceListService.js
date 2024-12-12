@@ -10,3 +10,12 @@ exports.createServiceList = async (servicesListData) => {
     throw new CustomError(500, error.message);
   }
 };
+
+exports.getServiceList = async () => {
+  try {
+    const serviceList = await ServiceList.find();
+    return serviceList;
+  } catch (error) {
+    throw new CustomError(500, "error fetching service list");
+  }
+};
