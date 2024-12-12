@@ -19,7 +19,7 @@ exports.getServiceList = async () => {
   } catch (error) {
     throw new CustomError(500, "error fetching service list");
   }
-  s;
+  ;
 };
 
 exports.updateServiceList = async (serviceListId, serviceId, serviceData) => {
