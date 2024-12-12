@@ -1,29 +1,32 @@
-const {uploadImageToCloudinary} = require('../utils/cloudinary');
+const { uploadImageToCloudinary } = require("../utils/cloudinary");
+const CustomError = require("../utils/customError");
 
-// console.log("__dirname in fileController:", __dirname);
-const uploadImage = async (req, res) => {
-  
-  if (!req.file) {
-    return res.status(400).json({
-      message: 'No file uploaded',
-    });
-  }
-
+const uploadImage = async (req, res, next) => {
   try {
-    const imageUrl = await uploadImageToCloudinary(req.file.path);
+    // Check if files are uploaded
+    if (!req.files || req.files.length === 0) {
+      throw new CustomError(400, "No files uploaded");
+    }
 
-    // Send the Cloudinary URL in the response
-    return res.status(200).json({
-      message: 'Image uploaded successfully',
-      imageUrl: imageUrl,
+    const uploadedImages = [];
+    for (const file of req.files) {
+      const imageUrl = await uploadImageToCloudinary(file.buffer); 
+      uploadedImages.push(imageUrl);
+    }
+
+    res.status(200).json({
+      message: "Images uploaded successfully",
+      images: uploadedImages,
     });
   } catch (error) {
-    console.error('Error during image upload:', error);
-    return res.status(500).json({
-      message: 'Failed to upload image',
-      error: error.message,
+    console.error("Error uploading images:", error);
+    res.status(error.statusCode || 500).json({
+      message: error.message || "Failed to upload images",
     });
   }
 };
+
+module.exports = { uploadImage };
+
 
 module.exports = { uploadImage };
