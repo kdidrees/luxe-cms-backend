@@ -10,13 +10,12 @@ cloudinary.config({
 
 const uploadImageToCloudinary = async (fileBuffer) => {
   try {
-    // Cloudinary expects a stream for buffer upload
     return new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          resource_type: "image", // Ensure the file is treated as an image
+          resource_type: "image",
           transformation: [
-            { width: 500, height: 500, crop: "limit", format: "jpg" }, // Optional transformations
+            { width: 500, height: 500, crop: "limit", format: "jpg" },
           ],
         },
         (error, result) => {
@@ -25,11 +24,10 @@ const uploadImageToCloudinary = async (fileBuffer) => {
             return reject(error);
           }
           console.log("Cloudinary upload result:", result);
-          resolve(result.secure_url); // Return the secure URL from Cloudinary
+          resolve(result.secure_url);
         }
       );
 
-      // Pass the file buffer to Cloudinary's stream upload
       stream.end(fileBuffer);
     });
   } catch (error) {
