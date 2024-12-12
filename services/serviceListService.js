@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const ServiceList = require("../models/serviceModel");
 const CustomError = require("../utils/customError");
 
@@ -17,5 +18,29 @@ exports.getServiceList = async () => {
     return serviceList;
   } catch (error) {
     throw new CustomError(500, "error fetching service list");
+  }
+  s;
+};
+
+exports.updateServiceList = async (serviceListId, serviceId, serviceData) => {
+  try {
+    const serviceList = await ServiceList.findById(serviceListId);
+    if (!serviceList) {
+      throw new CustomError(404, "ServiceList not found");
+    }
+    const objectId = new mongoose.Types.ObjectId(serviceId);
+
+    // Find the service using the ObjectId
+    const service = serviceList.services.id(objectId);
+    if (!service) {
+      throw new CustomError(404, "Service not found in the ServiceList");
+    }
+
+    Object.assign(service, serviceData);
+    await serviceList.save();
+    return serviceList;
+  } catch (error) {
+    console.error("Error in updateServiceList:", error); // Add logging for debugging
+    throw new CustomError(500, "Error updating the service list");
   }
 };

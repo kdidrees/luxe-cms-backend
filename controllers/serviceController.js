@@ -39,3 +39,23 @@ exports.getServiceList = async (req, res) => {
     throw new CustomError(500, error.message);
   }
 };
+
+exports.updateService = async (req, res) => {
+  try {
+    const serviceListId = req.params.id;
+    const {serviceId,serviceData } = req.body;
+
+    const result = await serviceListService.updateServiceList(
+      serviceListId,
+      serviceId,
+      serviceData,
+    );
+    return res.status(200).json({
+      status: "success",
+      message: "service updated successfully",
+      data: result,
+    });
+  } catch (error) {
+    throw new CustomError(500, "error updating the service");
+  }
+};
