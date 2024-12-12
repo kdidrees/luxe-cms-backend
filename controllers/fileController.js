@@ -9,7 +9,7 @@ const uploadImage = async (req, res, next) => {
 
     const uploadedImages = [];
     for (const file of req.files) {
-      const imageUrl = await uploadImageToCloudinary(file.buffer); 
+      const imageUrl = await uploadImageToCloudinary(file.buffer);
       uploadedImages.push(imageUrl);
     }
 
