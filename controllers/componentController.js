@@ -23,6 +23,7 @@ const getComponentById = async (req, res) => {
     throw new CustomError(500, error.message);
   }
 };
+
 const updateComponent = async (req, res) => {
   const { id } = req.params;
   const updateData = req.body;
