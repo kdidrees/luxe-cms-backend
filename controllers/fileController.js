@@ -3,7 +3,6 @@ const CustomError = require("../utils/customError");
 
 const uploadImage = async (req, res, next) => {
   try {
-    // Check if files are uploaded
     if (!req.files || req.files.length === 0) {
       throw new CustomError(400, "No files uploaded");
     }
