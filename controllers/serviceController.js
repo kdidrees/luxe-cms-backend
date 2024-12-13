@@ -1,7 +1,7 @@
 const serviceListService = require("../services/serviceListService");
 const CustomError = require("../utils/customError");
 
-exports.createServiceList = async (req, res) => {
+exports.createServiceList = async (req, res, next) => {
   try {
     const { icon, title, image, services } = req.body;
 
@@ -23,11 +23,11 @@ exports.createServiceList = async (req, res) => {
       data: newServiceList,
     });
   } catch (error) {
-    throw new CustomError(500, "server error while crewating list");
+    next(error);
   }
 };
 
-exports.getServiceList = async (req, res) => {
+exports.getServiceList = async (req, res, next) => {
   try {
     const result = await serviceListService.getServiceList();
     return res.status(200).json({
@@ -36,19 +36,19 @@ exports.getServiceList = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    throw new CustomError(500, error.message);
+    next(error);
   }
 };
 
-exports.updateService = async (req, res) => {
+exports.updateService = async (req, res, next) => {
   try {
     const serviceListId = req.params.id;
-    const {serviceId,serviceData } = req.body;
+    const { serviceId, serviceData } = req.body;
 
     const result = await serviceListService.updateServiceList(
       serviceListId,
       serviceId,
-      serviceData,
+      serviceData
     );
     return res.status(200).json({
       status: "success",
@@ -56,6 +56,6 @@ exports.updateService = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    throw new CustomError(500, "error updating the service");
+    next(error);
   }
 };

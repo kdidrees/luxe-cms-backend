@@ -1,25 +1,27 @@
-const CustomError = require("../utils/customError");
-
 const errorHandler = (err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "something went wrong";
-
-  console.log(err);
-
-  // check if the error is operational
-  if (err.isOperational) {
-    return res.status(statusCode).json({
-      message: message,
+  // Ensure err is defined
+  if (!err) {
+    return res.status(500).json({
+      status: "error",
+      message: "Unknown error occurred",
     });
   }
 
-  // for programming errors
+  const statusCode = err.statusCode || 500;
+  const message = err.isOperational
+    ? err.message
+    : "Something went wrong. Please try again later.";
 
-  return res.status(500).json({
-    message: `internal server error`,
+  // Log the error stack in non-production environments for debugging
+  if (process.env.NODE_ENV !== "production") {
+    console.error(err.stack);
+  }
+
+  return res.status(statusCode).json({
+    status: "error",
+    statusCode,
+    message,
   });
 };
-
-
 
 module.exports = errorHandler;

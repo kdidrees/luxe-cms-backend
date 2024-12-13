@@ -1,7 +1,7 @@
 const blogService = require("../services/blogService");
 const CustomError = require("../utils/customError");
 
-exports.createBlog = async (req, res) => {
+exports.createBlog = async (req, res,next) => {
   try {
     const { blog } = req.body;
 
@@ -12,11 +12,11 @@ exports.createBlog = async (req, res) => {
       blog: result.blog,
     });
   } catch (error) {
-    throw new CustomError(500, "error creating blog");
+   next(error)
   }
 };
 
-exports.updateBlog = async (req, res) => {
+exports.updateBlog = async (req, res,next) => {
   try {
     const blogId = req.params.id;
     const { updateData } = req.body;
@@ -28,19 +28,20 @@ exports.updateBlog = async (req, res) => {
       blog: result.blog,
     });
   } catch (error) {
-    throw new CustomError(500, "error creating blog");
+   next(error)
   }
 };
 
-exports.deleteBlog = async (req, res) => {
+exports.deleteBlog = async (req, res,next) => {
   try {
     const blogId = req.params.id;
     const result = await blogService.deleteBlogService(blogId);
+    
     return res.status(200).json({
       status: "success",
       message: "blog deleted successfully",
     });
   } catch (error) {
-    throw new CustomError(500, "error creating blog");
+    next(error)
   }
 };

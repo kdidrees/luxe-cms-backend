@@ -15,11 +15,7 @@ const createPage = async (req, res, next) => {
       data: page,
     });
   } catch (error) {
-    res.status(500).json({
-      status: "fail",
-      message: "Error while creating the page ",
-      error: error.message,
-    });
+    next(error)
   }
 };
 

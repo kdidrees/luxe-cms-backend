@@ -1,7 +1,7 @@
 const componentService = require("../services/componentService");
 const CustomError = require("../utils/customError");
 
-const getComponentById = async (req, res) => {
+const getComponentById = async (req, res,next) => {
   const { id } = req.params;
 
   try {
@@ -20,11 +20,11 @@ const getComponentById = async (req, res) => {
       data: Component,
     });
   } catch (error) {
-    throw new CustomError(500, error.message);
+   next(error)
   }
 };
 
-const updateComponent = async (req, res) => {
+const updateComponent = async (req, res,next) => {
   const { id } = req.params;
   const updateData = req.body;
 
@@ -47,7 +47,7 @@ const updateComponent = async (req, res) => {
       data: updatedComponent,
     });
   } catch (error) {
-    throw new CustomError(500, error.message);
+   next(error)
   }
 };
 

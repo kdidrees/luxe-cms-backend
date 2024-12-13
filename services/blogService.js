@@ -30,8 +30,13 @@ exports.updateBlogService = async (blogId, updateData) => {
 exports.deleteBlogService = async (blogId) => {
   try {
     const result = await BlogModel.findByIdAndDelete(blogId);
+
+    if (!result) {
+      throw new CustomError(404, "No blog found with this ID");
+    }
+
     result;
   } catch (error) {
-    throw new CustomError(500, "internal server error");
+    throw new CustomError(500, "Internal Server Error");
   }
 };
