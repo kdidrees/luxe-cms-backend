@@ -9,6 +9,7 @@ const pageRoutes = require("./routes/pageRoutes");
 const componentRoutes = require("./routes/componentRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const serviceRoutes = require("./routes/servicesRoutes");
+const blogRoutes = require("./routes/blogRoute");
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/pages", pageRoutes);
 app.use("/api/components", componentRoutes);
 app.use("/api/files", fileRoutes);
 app.use("/api/services", serviceRoutes);
+app.use("/api/blogs", blogRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`the server is running at port ${process.env.PORT}`);
