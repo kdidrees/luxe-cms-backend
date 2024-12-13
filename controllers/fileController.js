@@ -25,4 +25,4 @@ const uploadImage = async (req, res, next) => {
   }
 };
 
-module.exports = { uploadImage };
+module.exports = { uploadImage }; 
