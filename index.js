@@ -19,7 +19,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(errorHandler);
 
 // connect database here
 ConnectDataBase();
@@ -30,6 +29,9 @@ app.use("/api/components", componentRoutes);
 app.use("/api/files", fileRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/blogs", blogRoutes);
+
+app.use(errorHandler);
+
 
 app.listen(process.env.PORT, () => {
   console.log(`the server is running at port ${process.env.PORT}`);
