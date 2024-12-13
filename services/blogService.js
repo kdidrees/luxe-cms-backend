@@ -10,3 +10,28 @@ exports.addBlogService = async (blog) => {
     throw new CustomError(500, "error while creating blogs");
   }
 };
+
+exports.updateBlogService = async (blogId, updateData) => {
+  try {
+    const result = await BlogModel.findByIdAndUpdate(
+      blogId,
+      { blog: updateData },
+      {
+        new: true,
+      }
+    );
+    console.log(updateData, "ye hai");
+    return result;
+  } catch (error) {
+    throw new CustomError(500, "internal server error");
+  }
+};
+
+exports.deleteBlogService = async (blogId) => {
+  try {
+    const result = await BlogModel.findByIdAndDelete(blogId);
+    result;
+  } catch (error) {
+    throw new CustomError(500, "internal server error");
+  }
+};
