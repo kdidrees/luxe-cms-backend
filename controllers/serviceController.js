@@ -59,3 +59,17 @@ exports.updateService = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteService = async (req, res, next) => {
+  const serviceListId = req.params.id;
+  const { serviceId } = req.body;
+  try {
+    await serviceListService.deleteService(serviceListId, serviceId);
+    return res.status(200).json({
+      status: "success",
+      message: "service deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -19,7 +19,6 @@ exports.getServiceList = async () => {
   } catch (error) {
     throw new CustomError(500, "error fetching service list");
   }
-  ;
 };
 
 exports.updateServiceList = async (serviceListId, serviceId, serviceData) => {
@@ -51,7 +50,9 @@ exports.deleteService = async (serviceListId, serviceId) => {
     if (!serviceList) {
       throw new CustomError(404, "ServiceList not found");
     }
-
+    serviceList.services = serviceList.services.filter(
+      (service) => service._id.toString() !== serviceId
+    );
     await serviceList.save();
     return serviceList;
   } catch (error) {
