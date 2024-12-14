@@ -16,3 +16,15 @@ exports.createFaq = async (data) => {
     throw new CustomError(500, "error creating faq");
   }
 };
+
+exports.addFaq = async (data) => {
+  try {
+    const faq = await FaqModel.findOne();
+    faq.faqs.push(data);
+    await faq.save();
+
+    return faq;
+  } catch (error) {
+    throw new CustomError(500, "error creating faq");
+  }
+};
