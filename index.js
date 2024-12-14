@@ -11,6 +11,7 @@ const componentRoutes = require("./routes/componentRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const serviceRoutes = require("./routes/servicesRoutes");
 const blogRoutes = require("./routes/blogRoute");
+const faqRoutes = require("./routes/faqRoutes");
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use("/api/components", componentRoutes);
 app.use("/api/files", fileRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/faqs", faqRoutes);
 
 app.use(errorHandler);
 
