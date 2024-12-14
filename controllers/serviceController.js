@@ -27,6 +27,21 @@ exports.createServiceList = async (req, res, next) => {
   }
 };
 
+exports.addService = async (req, res, next) => {
+  const serviceListId = req.params.id;
+  const { data } = req.body;
+  try {
+    const result = await serviceListService.addService(serviceListId, data);
+    return res.status(201).json({
+      status: "success",
+      message: "service created successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.getServiceList = async (req, res, next) => {
   try {
     const result = await serviceListService.getServiceList();

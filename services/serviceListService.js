@@ -12,6 +12,20 @@ exports.createServiceList = async (servicesListData) => {
   }
 };
 
+exports.addService = async (serviceListId, data) => {
+  try {
+    const serviceList = await ServiceList.findById(serviceListId);
+    if (!serviceList) {
+      throw new CustomError(404, "service list not found");
+    }
+    serviceList.services.push(data);
+    await serviceList.save();
+    return serviceList;
+  } catch (error) {
+    throw new CustomError(500, error.message);
+  }
+};
+
 exports.getServiceList = async () => {
   try {
     const serviceList = await ServiceList.find();
