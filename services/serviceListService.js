@@ -39,7 +39,6 @@ exports.updateServiceList = async (serviceListId, serviceId, serviceData) => {
     await serviceList.save();
     return serviceList;
   } catch (error) {
-    console.error("Error in updateServiceList:", error); // Add logging for debugging
     throw new CustomError(500, "Error updating the service list");
   }
 };
@@ -47,7 +46,7 @@ exports.updateServiceList = async (serviceListId, serviceId, serviceData) => {
 exports.deleteService = async (serviceListId, serviceId) => {
   try {
     const serviceList = await ServiceList.findById(serviceListId);
-    if (!serviceList) {
+    if (!serviceList || !serviceList.services.length) {
       throw new CustomError(404, "ServiceList not found");
     }
     serviceList.services = serviceList.services.filter(
@@ -56,7 +55,6 @@ exports.deleteService = async (serviceListId, serviceId) => {
     await serviceList.save();
     return serviceList;
   } catch (error) {
-    console.error("Error in updateServiceList:", error); // Add logging for debugging
-    throw new CustomError(500, "Error updating the service list");
+    throw new CustomError(500, "Error deleting service");
   }
 };
