@@ -14,9 +14,9 @@ const uploadImageToCloudinary = async (fileBuffer) => {
       const stream = cloudinary.uploader.upload_stream(
         {
           resource_type: "image",
-          transformation: [
-            { width: 500, height: 500, crop: "limit", format: "jpg" },
-          ],
+          // transformation: [
+          //   { width: 500, height: 500, crop: "limit", format: "jpg" },
+          // ],
         },
         (error, result) => {
           if (error) {
