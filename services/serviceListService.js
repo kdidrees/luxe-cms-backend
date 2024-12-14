@@ -44,3 +44,18 @@ exports.updateServiceList = async (serviceListId, serviceId, serviceData) => {
     throw new CustomError(500, "Error updating the service list");
   }
 };
+
+exports.deleteService = async (serviceListId, serviceId) => {
+  try {
+    const serviceList = await ServiceList.findById(serviceListId);
+    if (!serviceList) {
+      throw new CustomError(404, "ServiceList not found");
+    }
+
+    await serviceList.save();
+    return serviceList;
+  } catch (error) {
+    console.error("Error in updateServiceList:", error); // Add logging for debugging
+    throw new CustomError(500, "Error updating the service list");
+  }
+};

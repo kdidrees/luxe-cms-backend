@@ -40,3 +40,13 @@ exports.deleteBlogService = async (blogId) => {
     throw new CustomError(500, "Internal Server Error");
   }
 };
+
+
+exports.fetchBlogService = async () => {
+  try {
+    const result = await BlogModel.find();
+    return result;
+  } catch (error) {
+    throw new CustomError(500, "error while creating blogs");
+  }
+};
