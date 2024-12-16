@@ -32,7 +32,13 @@ exports.addFaq = async (data) => {
 exports.deleteFaq = async (faqId) => {
   try {
     const faq = await FaqModel.findOne();
+
+    const initialLength = faq.faqs.length;
     faq.faqs = faq.faqs.filter((faq) => faq._id.toString() !== faqId);
+
+    if (faq.faqs.length === initialLength) {
+      throw new CustomError(404, "FAQ item not found");
+    }
     await faq.save();
   } catch (error) {
     throw new CustomError(500, "error creating faq");
