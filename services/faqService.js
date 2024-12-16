@@ -41,6 +41,9 @@ exports.deleteFaq = async (faqId) => {
     }
     await faq.save();
   } catch (error) {
-    throw new CustomError(500, "error creating faq");
+    if (error instanceof CustomError) {
+      throw error;
+    }
+    throw new CustomError(500, "Error deleting FAQ");
   }
 };
