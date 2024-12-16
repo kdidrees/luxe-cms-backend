@@ -1,4 +1,3 @@
-// utils/CustomError.js
 class CustomError extends Error {
   constructor(statusCode, message) {
     super(message);
