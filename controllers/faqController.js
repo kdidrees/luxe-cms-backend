@@ -14,7 +14,6 @@ exports.createFaq = async (req, res, next) => {
   }
 };
 
-
 exports.addFaq = async (req, res, next) => {
   const { data } = req.body;
   try {
@@ -23,6 +22,20 @@ exports.addFaq = async (req, res, next) => {
       status: "success",
       message: "faq added successfully",
       data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteFaq = async (req, res, next) => {
+  const faqId = req.params.id;
+  try {
+    const result = await faqService.deleteFaq(faqId);
+    return res.status(200).json({
+      status: "success",
+      message: "faq deleted successfully",
+      result,
     });
   } catch (error) {
     next(error);
